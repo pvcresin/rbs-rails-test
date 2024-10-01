@@ -18,6 +18,8 @@ RbsRails::RakeTask.new do |task|
 end
 
 namespace :rbs do
+  TARGET_DIRS = %w[app lib].freeze
+
   task setup: %i[collection rbs_rails:all inline]
   task update: %i[rbs_rails:all inline]
   task reset: %i[clean setup]
@@ -27,21 +29,19 @@ namespace :rbs do
   end
 
   task :inline do
-    sh "bundle exec rbs-inline --output --opt-out app lib"
+    sh "bundle exec rbs-inline --output --opt-out #{TARGET_DIRS.join(' ')}"
   end
 
   task :watch do
     require "listen"
 
     Rake::Task["rbs:inline"].execute
-    listener = Listen.to("app", "lib", only: /\.rb$/) do |modified, added, removed|
+    listener = Listen.to(*TARGET_DIRS, only: /\.rb$/) do |modified, added, removed|
       if removed.present?
-        warn "#{removed} are removed. Rebuilding all RBS files..."
         sh "rm -rf sig/generated/"
         Rake::Task["rbs:inline"].execute
       elsif modified.present? || added.present?
-        warn "#{modified + added} are modified. Build RBS files from these files..."
-        sh("bundle exec rbs-inline --output --opt-out", *modified, *added)
+        sh "bundle exec rbs-inline --output --opt-out #{modified.join(' ')} #{added.join(' ')}"
       end
     end
     listener.start
