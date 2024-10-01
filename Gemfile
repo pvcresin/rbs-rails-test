@@ -47,6 +47,7 @@ group :development, :test do
   gem "rbs-inline", require: false
   gem "rbs_rails", require: false
   gem "steep", require: false
+  gem "listen", require: false
 end
 
 group :development do

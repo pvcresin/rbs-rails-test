@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rbs_rails/rake_task"
+require "listen"
 
 RbsRails::RakeTask.new do |task|
   # If you want to avoid generating RBS for some classes, comment in it.
@@ -31,7 +32,14 @@ namespace :rbs do
   end
 
   task :watch do
-    sh "fswatch -0 app/**/*.rb lib/**/*.rb | xargs -0 -n1 bundle exec rbs-inline --output --opt-out app lib"
+    listener = Listen.to("app", "lib") do |modified, added, removed|
+      relevant_changes = (modified + added + removed).select { |file| file.end_with?(".rb") }
+      unless relevant_changes.empty?
+        system("bundle exec rbs-inline --output --opt-out app lib")
+      end
+    end
+    listener.start
+    sleep
   end
 
   task :validate do
