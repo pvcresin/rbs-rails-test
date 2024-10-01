@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rbs_rails/rake_task"
-require "listen"
 
 RbsRails::RakeTask.new do |task|
   # If you want to avoid generating RBS for some classes, comment in it.
@@ -32,15 +31,23 @@ namespace :rbs do
   end
 
   task :watch do
+    require "listen"
+
     Rake::Task["rbs:inline"].execute
-    listener = Listen.to("app", "lib") do |modified, added, removed|
-      relevant_changes = (modified + added + removed).select { |file| file.end_with?(".rb") }
-      unless relevant_changes.empty?
+    listener = Listen.to("app", "lib", only: /\.rb$/) do |modified, added, removed|
+      if removed.present?
+        warn "#{removed} are removed. Rebuilding all RBS files..."
+        sh "rm -rf sig/generated/"
         Rake::Task["rbs:inline"].execute
+      elsif modified.present? || added.present?
+        warn "#{modified + added} are modified. Build RBS files from these files..."
+        sh("bundle exec rbs-inline --output --opt-out", *modified, *added)
       end
     end
     listener.start
     sleep
+  ensure
+    listener&.stop
   end
 
   task :validate do
