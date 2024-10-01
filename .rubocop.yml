@@ -6,3 +6,15 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
+
+# rbs-inlineでメソッドの後ろに `#: ` を使うため
+Style/CommentedKeyword:
+  Enabled: false
+
+# rbs-inlineで `#: ` を使うため
+Layout/LeadingCommentSpace:
+  Enabled: false
+
+# rbs-inlineでは　`attr_*` を1つずつ書く必要があるため
+Style/AccessorGrouping:
+  Enabled: false

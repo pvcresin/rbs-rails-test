@@ -171,6 +171,7 @@ GEM
     parser (3.3.5.0)
       ast (~> 2.4.1)
       racc
+    prism (1.0.0)
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
@@ -221,6 +222,9 @@ GEM
       ffi (~> 1.0)
     rbs (3.6.0)
       logger
+    rbs-inline (0.9.0)
+      prism (>= 0.29, < 1.1)
+      rbs (>= 3.5.0)
     rbs_rails (0.12.0)
       parser
       rbs (>= 1)
@@ -353,6 +357,7 @@ DEPENDENCIES
   jbuilder
   puma (>= 5.0)
   rails (~> 7.2.1)
+  rbs-inline
   rbs_rails
   rubocop-rails-omakase
   selenium-webdriver
