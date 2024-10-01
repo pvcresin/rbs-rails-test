@@ -14,6 +14,7 @@
 `rake rbs:update`
 `rake rbs:reset`
 
+`bundle exec steep validate`: RBS validate
 `bundle exec steep check`
 
 `bin/rails s`
