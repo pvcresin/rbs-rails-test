@@ -6,3 +6,5 @@
 `bundle exec rbs collection update`
 
 `bin/rails rbs_rails:all`
+
+`bin/rails s`
