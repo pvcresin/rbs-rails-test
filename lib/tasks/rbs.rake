@@ -51,7 +51,7 @@ namespace :rbs do
   end
 
   task :validate do
-    sh "bundle exec steep validate"
+    sh "bundle exec rbs validate"
   end
 
   task :type_check do
