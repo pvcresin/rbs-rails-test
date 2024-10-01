@@ -34,6 +34,14 @@ namespace :rbs do
     sh "fswatch -0 app/**/*.rb lib/**/*.rb | xargs -0 -n1 bundle exec rbs-inline --output --opt-out app lib"
   end
 
+  task :validate do
+    sh "bundle exec steep validate"
+  end
+
+  task :type_check do
+    sh "bundle exec steep check"
+  end
+
   task :clean do
     sh "rm -rf .gem_rbs_collection/ sig/rbs_rails/ sig/generated/"
   end

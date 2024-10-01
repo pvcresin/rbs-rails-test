@@ -4,8 +4,8 @@ class Article < ApplicationRecord
     "Hello, world!"
   end
 
-  # @rbs () -> Integer
-  def a
-    rand(10)
+  # @rbs (Integer) -> Integer
+  def a(param)
+    rand(param)
   end
 end
