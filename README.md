@@ -1,5 +1,7 @@
 # README
 
+`bundle`
+`rails db:migrate`
 `rake rbs:setup`
 `rake rbs:update`
 `rake rbs:watch`
