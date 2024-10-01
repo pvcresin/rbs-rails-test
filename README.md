@@ -12,6 +12,7 @@
 
 `rake rbs:setup`
 `rake rbs:update`
+`rake rbs:watch`
 `rake rbs:reset`
 
 `bundle exec steep validate`: RBS validate

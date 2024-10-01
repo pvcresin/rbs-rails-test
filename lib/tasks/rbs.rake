@@ -23,14 +23,18 @@ namespace :rbs do
   task reset: %i[clean setup]
 
   task :collection do
-    sh "rbs", "collection", "install", "--frozen"
+    sh "rbs collection install --frozen"
   end
 
   task :inline do
-    sh "rbs-inline", "--output", "--opt-out", "app", "lib"
+    sh "rbs-inline --output --opt-out app lib"
+  end
+
+  task :watch do
+    sh "fswatch -0 app/**/*.rb lib/**/*.rb | xargs -0 -n1 bundle exec rbs-inline --output --opt-out app lib"
   end
 
   task :clean do
-    sh "rm", "-rf", ".gem_rbs_collection/", "sig/rbs_rails/", "sig/generated/"
+    sh "rm -rf .gem_rbs_collection/ sig/rbs_rails/ sig/generated/"
   end
 end
