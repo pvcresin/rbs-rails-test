@@ -16,3 +16,21 @@ RbsRails::RakeTask.new do |task|
   # default: Rails.root / 'sig/rbs_rails'
   # task.signature_root_dir = Rails.root / 'my_sig/rbs_rails'
 end
+
+namespace :rbs do
+  task setup: %i[collection rbs_rails:all inline]
+  task update: %i[rbs_rails:all inline]
+  task reset: %i[clean setup]
+
+  task :collection do
+    sh "rbs", "collection", "install", "--frozen"
+  end
+
+  task :inline do
+    sh "rbs-inline", "--output", "--opt-out", "app", "lib"
+  end
+
+  task :clean do
+    sh "rm", "-rf", ".gem_rbs_collection/", "sig/rbs_rails/", "sig/generated/"
+  end
+end
