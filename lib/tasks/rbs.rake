@@ -28,14 +28,15 @@ namespace :rbs do
   end
 
   task :inline do
-    sh "rbs-inline --output --opt-out app lib"
+    sh "bundle exec rbs-inline --output --opt-out app lib"
   end
 
   task :watch do
+    Rake::Task["rbs:inline"].execute
     listener = Listen.to("app", "lib") do |modified, added, removed|
       relevant_changes = (modified + added + removed).select { |file| file.end_with?(".rb") }
       unless relevant_changes.empty?
-        system("bundle exec rbs-inline --output --opt-out app lib")
+        Rake::Task["rbs:inline"].execute
       end
     end
     listener.start
