@@ -7,4 +7,6 @@
 
 `bin/rails rbs_rails:all`
 
+`bundle exec steep check`
+
 `bin/rails s`

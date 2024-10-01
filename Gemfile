@@ -45,6 +45,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "rbs_rails", require: false
+  gem "steep", require: false
 end
 
 group :development do
